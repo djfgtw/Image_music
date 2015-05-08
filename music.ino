@@ -13,7 +13,7 @@ int speaker = 11;//喇叭
 int motor = 10;//馬達
 int val[]={1,2,3,4,5};//紅外線感應器值
 int base=30;//基礎值
-int time=10;
+int time=100;
 
 void setup() 
 {
@@ -28,9 +28,13 @@ void setup()
 
 void loop() 
 {
- for(int pin=0;pin<5;pin++)
+ for(int pin=0;pin<1;pin++)
  {
-  val[pin]=analogRead(sensor[pin]);//讀值
+  for(int i=0;i<10;i++)//抓10次平均
+  {
+    val[pin]=analogRead(sensor[pin]);//讀值
+    val[pin]=val[pin]/i;
+  }
   Serial.print("sensor");
   Serial.print((pin+1));
   Serial.print("=");
@@ -41,38 +45,48 @@ void loop()
    switch(pin)
    {
     case 0:
-     analogWrite(speaker,261);//宮
      digitalWrite(led[pin],HIGH);
+     tone(speaker,523);//宮523
      delay(time);
-     Serial.println("LED0");
+     noTone(speaker);
+     delay(time/5);
      break;
     case 1:
-     analogWrite(speaker,293);//商
      digitalWrite(led[pin],HIGH);
+     tone(speaker,587);//商587
      delay(time);
-     Serial.println("LED1");
+     noTone(speaker);
+     delay(time/5);
      break;
     case 2:
-     analogWrite(speaker,329);//角
      digitalWrite(led[pin],HIGH);
+     tone(speaker,659);//角659
      delay(time);
-     Serial.println("LED2");
+     noTone(speaker);
+     delay(time/5);     
      break;
     case 3:
-     analogWrite(speaker,391);//徵
      digitalWrite(led[pin],HIGH);
+     tone(speaker,1567);//徵1567
      delay(time);
-     Serial.println("LED3");
+     noTone(speaker);
+     delay(time/5);     
      break;
     case 4:
-     analogWrite(speaker,440);//羽
      digitalWrite(led[pin],HIGH);
+     tone(speaker,1760);//羽1760
      delay(time);
-     Serial.println("LED4");
+     noTone(speaker);
+     delay(time/5);     
      break;
     default:
      digitalWrite(led[pin],LOW);
+     noTone(speaker);
    }
+  }
+  else
+  {
+    digitalWrite(led[pin],LOW);
   }
  }
  
